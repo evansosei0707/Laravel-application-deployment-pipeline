@@ -65,14 +65,14 @@ jobs:
       - name: Install Composer Dependencies
         working-directory: app/weblog
         run: |
-          composer install --no-dev --optimize-autoloader --no-interaction
+          composer install --optimize-autoloader --no-interaction
 
       - name: Run PHPUnit Tests
         working-directory: app/weblog
         run: |
           cp .env.example .env
           php artisan key:generate
-          ./vendor/bin/phpunit --no-interaction
+          vendor/bin/phpunit
         continue-on-error: true  # Continue even if tests fail for demo
 
       - name: Configure AWS Credentials (OIDC)
