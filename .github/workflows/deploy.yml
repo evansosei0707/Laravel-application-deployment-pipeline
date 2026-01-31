@@ -182,11 +182,12 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: zap-report
+          name: zap-report-${{ github.run_number }}
           path: |
             report_html.html
             report_json.json
           retention-days: 30
+          if-no-files-found: ignore
 
       - name: Stop Container
         if: always()
@@ -268,6 +269,28 @@ jobs:
           
           # Update appspec with actual task definition ARN
           sed -i "s|<TASK_DEFINITION>|$TASK_DEF_ARN|g" appspec.yaml
+
+      - name: Stop Active Deployments
+        run: |
+          # Check for any in-progress deployments and stop them
+          ACTIVE_DEPLOYMENTS=$(aws deploy list-deployments \
+            --application-name ${{ env.CODEDEPLOY_APP }} \
+            --deployment-group-name ${{ env.CODEDEPLOY_GROUP }} \
+            --include-only-statuses InProgress Queued \
+            --query 'deployments' \
+            --output text)
+          
+          if [ -n "$ACTIVE_DEPLOYMENTS" ] && [ "$ACTIVE_DEPLOYMENTS" != "None" ]; then
+            for DEPLOY_ID in $ACTIVE_DEPLOYMENTS; do
+              echo "Stopping active deployment: $DEPLOY_ID"
+              aws deploy stop-deployment --deployment-id $DEPLOY_ID || true
+            done
+            # Wait for deployments to stop
+            sleep 30
+          else
+            echo "No active deployments to stop"
+          fi
+        continue-on-error: true
 
       - name: Create CodeDeploy Deployment
         id: create-deployment
