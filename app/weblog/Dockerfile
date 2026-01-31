@@ -99,8 +99,9 @@ COPY --from=node-assets /app/public/css ./public/css
 COPY --from=node-assets /app/public/js ./public/js
 COPY --from=node-assets /app/public/mix-manifest.json ./public/mix-manifest.json
 
-# Set permissions
-RUN chown -R www-data:www-data /var/www/html \
+# Set permissions and create required directories
+RUN mkdir -p /var/log/supervisor /var/log/php /var/log/nginx \
+    && chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html/storage \
     && chmod -R 755 /var/www/html/bootstrap/cache
 
