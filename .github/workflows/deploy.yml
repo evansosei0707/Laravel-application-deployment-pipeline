@@ -72,7 +72,7 @@ jobs:
         run: |
           cp .env.example .env
           php artisan key:generate
-          php artisan test --no-interaction
+          ./vendor/bin/phpunit --no-interaction
         continue-on-error: true  # Continue even if tests fail for demo
 
       - name: Configure AWS Credentials (OIDC)

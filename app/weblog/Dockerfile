@@ -37,7 +37,7 @@ WORKDIR /app
 COPY package.json package-lock.json* ./
 
 # Install dependencies
-RUN npm ci --production=false
+RUN npm ci
 
 # Copy source files needed for build
 COPY webpack.mix.js ./
