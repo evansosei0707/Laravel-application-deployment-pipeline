@@ -1,0 +1,33 @@
+# =============================================================================
+# Terraform Variables Example
+# =============================================================================
+# Copy this file to terraform.tfvars and fill in your values
+# DO NOT commit terraform.tfvars to version control!
+# =============================================================================
+
+# AWS Configuration
+aws_region     = "us-east-1"
+aws_account_id = "067847734974"
+
+# Project Configuration
+project_name = "laravel-blog"
+environment  = "production"
+
+# VPC Configuration
+vpc_cidr           = "10.0.0.0/16"
+availability_zones = ["us-east-1a", "us-east-1b"]
+
+# ECS Configuration
+container_port = 80
+desired_count  = 2
+task_cpu       = 512
+task_memory    = 1024
+
+# RDS Configuration
+db_instance_class = "db.t3.micro"
+db_name           = "laravel"
+db_username       = "laravel_admin"
+db_password       = "CHANGE_ME_SECURE_PASSWORD"  # Change this!
+
+# Laravel Configuration
+app_key = "base64:YOUR_LARAVEL_APP_KEY_HERE"  # Generate with: php artisan key:generate --show
