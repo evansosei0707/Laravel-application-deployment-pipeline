@@ -92,3 +92,8 @@ variable "db_password" {
   type        = string
   sensitive   = true
 }
+
+variable "alb_dns_name" {
+  description = "ALB DNS name for APP_URL"
+  type        = string
+}

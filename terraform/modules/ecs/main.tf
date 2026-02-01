@@ -102,13 +102,16 @@ resource "aws_ecs_task_definition" "main" {
         { name = "APP_ENV", value = "production" },
         { name = "APP_DEBUG", value = "false" },
         { name = "APP_KEY", value = var.app_key },
+        { name = "APP_URL", value = "http://${var.alb_dns_name}" },
         { name = "DB_CONNECTION", value = "mysql" },
         { name = "DB_HOST", value = var.db_host },
         { name = "DB_PORT", value = "3306" },
         { name = "DB_DATABASE", value = var.db_name },
         { name = "DB_USERNAME", value = var.db_username },
         { name = "DB_PASSWORD", value = var.db_password },
-        { name = "LOG_CHANNEL", value = "stderr" }
+        { name = "LOG_CHANNEL", value = "stderr" },
+        { name = "SESSION_DRIVER", value = "cookie" },
+        { name = "SESSION_SECURE_COOKIE", value = "false" }
       ]
 
       logConfiguration = {

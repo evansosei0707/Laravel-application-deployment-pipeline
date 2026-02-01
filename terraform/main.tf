@@ -93,6 +93,7 @@ module "ecs" {
   db_name        = var.db_name
   db_username    = var.db_username
   db_password    = var.db_password
+  alb_dns_name   = module.alb.alb_dns_name
 }
 
 # -----------------------------------------------------------------------------
