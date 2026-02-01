@@ -63,6 +63,7 @@ RUN apk add --no-cache \
     oniguruma-dev \
     mysql-client \
     curl \
+    netcat-openbsd \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) \
         pdo_mysql \
@@ -86,6 +87,10 @@ COPY docker/nginx-site.conf /etc/nginx/http.d/default.conf
 
 # Configure Supervisor
 COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+# Copy startup script
+COPY docker/start.sh /usr/local/bin/start.sh
+RUN chmod +x /usr/local/bin/start.sh
 
 # Set working directory
 WORKDIR /var/www/html
@@ -117,5 +122,5 @@ EXPOSE 80
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
     CMD /usr/local/bin/healthcheck.sh
 
-# Start supervisor
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+# Start application using startup script
+CMD ["/usr/local/bin/start.sh"]

@@ -121,9 +121,9 @@ resource "aws_iam_role_policy" "github_actions" {
       {
         Effect = "Allow"
         Action = [
-          "elbv2:DescribeLoadBalancers",
-          "elbv2:DescribeTargetGroups",
-          "elbv2:DescribeListeners"
+          "elasticloadbalancing:DescribeLoadBalancers",
+          "elasticloadbalancing:DescribeTargetGroups",
+          "elasticloadbalancing:DescribeListeners"
         ]
         Resource = "*"
       },
